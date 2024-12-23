@@ -1,51 +1,29 @@
-import React, { useState } from 'react';
-import { GoogleOAuthProvider, GoogleLogin, googleLogout } from '@react-oauth/google';
-import axios from 'axios';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import '../styles/Home.css';
 
 const Home = () => {
-    const [user, setUser] = useState(null); // State to store user information
-
-    const handleSuccess = async (credentialResponse) => {
-        try {
-            const response = await axios.post('http://localhost:5054/auth/google/callback', {
-                tokenId: credentialResponse.credential,
-            });
-
-            console.log('Login Successful:', response.data);
-            setUser(response.data); // Store user info (e.g., email, name)
-        } catch (error) {
-            console.error('Error during login:', error);
-        }
-    };
-
-    const handleError = () => {
-        console.error('Google login failed');
-    };
-
-    const handleLogout = () => {
-        googleLogout(); // Clears Google session
-        setUser(null); // Clear user info from state
-        alert('Logged out successfully!');
-    };
-
     return (
-        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-            <div style={{ textAlign: 'center', marginTop: '50px' }}>
-                {!user ? (
-                    <>
-                        <h1>Welcome to LinkedIn Clone</h1>
-                        <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
-                    </>
-                ) : (
-                    <>
-                        <h1>Welcome, {user.email}!</h1>
-                        <button onClick={handleLogout} style={{ padding: '10px 20px', marginTop: '20px' }}>
-                            Logout
-                        </button>
-                    </>
-                )}
-            </div>
-        </GoogleOAuthProvider>
+        <div className="home-container">
+            <header className="header">
+                <img src="/linkedin-logo.png.png" alt="LinkedIn Logo" className="logo" />
+                <div className="header-actions">
+                    <Link to="/login" className="sign-in-button">Sign in</Link>
+                </div>
+            </header>
+            <main className="main-content">
+                <div className="welcome-section">
+                    <h1>Welcome to your professional community</h1>
+                    <p className="terms">
+                        By clicking Continue to join or sign in, you agree to LinkedIn’s{' '}
+                        <a href="#">User Agreement</a>, <a href="#">Privacy Policy</a>, and <a href="#">Cookie Policy</a>.
+                    </p>
+                </div>
+            </main>
+            <footer className="footer">
+                <a href="#">Join now</a>
+            </footer>
+        </div>
     );
 };
 

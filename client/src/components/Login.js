@@ -7,7 +7,6 @@ const Login = () => {
         console.log('Google login success:', credentialResponse);
 
         try {
-            // Send the token to the backend
             const response = await axios.post('http://localhost:5054/auth/google/callback', {
                 tokenId: credentialResponse.credential,
             });

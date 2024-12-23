@@ -1,0 +1,26 @@
+# Logs
+*.log
+
+# Dependency directories
+node_modules/
+
+# Build output
+build/
+dist/
+
+# React environment variables
+.env
+
+# Cache
+.cache/
+.eslintcache/
+
+# Temporary files and system files
+.DS_Store
+Thumbs.db
+
+# IDE and editor-specific files
+.vscode/
+.idea/
+*.swp
+*.swo

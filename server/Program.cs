@@ -1,9 +1,13 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.EntityFrameworkCore;
+using linkedin_clone_v1;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// Configure Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -20,16 +24,20 @@ builder.Services.AddAuthentication(options =>
     options.CallbackPath = "/auth/google/callback";
 });
 
+// Add DbContext for PostgreSQL
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 // Add controllers
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Use authentication and authorization
+// Configure middleware
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllers(); // Automatically maps controllers in the project
 
 app.MapGet("/", () => "Welcome to the LinkedIn Clone API!");
 
